@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Employee List";
 }
 @section scripts{
     <script src="~/Scripts/plugins/mustache.min.js"></script>
@@ -7,17 +7,22 @@
     <script src="~/Scripts/controllers/homeController.js"></script>
 }
 <div class="row">
-    <table class="table">
-        <thead>
-            <tr>
-                <td>ID</td>
-                <td>Name</td>
-                <td>Salary</td>
-                <td>Status</td>
-            </tr>
-        </thead>
-        <tbody id="tblData"></tbody>
-    </table>
+    <div class="col-md-12">
+        <button id="btnAddNew" class="btn btn-success">Add employee</button>
+    </div>
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Name</td>
+                    <td>Salary</td>
+                    <td>Status</td>
+                </tr>
+            </thead>
+            <tbody id="tblData"></tbody>
+        </table>
+    </div>    
 </div>
 
 <div id="pagination" class="pagination">
@@ -32,3 +37,35 @@
         <td>{{{Status}}}</td>
     </tr>
 </script>
+
+<div class="modal fade" id="modalAddUpdate" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                <h4 class="modal-title">Add/Update Employee</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="txtName">Name</label>
+                        <input type="text" class="form-control" id="txtName">
+                        <input type="hidden" id="hidID" value="0" />
+                    </div>
+                    <div class="form-group">
+                        <label for="txtSalary">Salary</label>
+                        <input type="number" class="form-control" id="txtSalary">
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" id="ckStatus" />Active</label>
+                    </div>
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-default" id="btnSave">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

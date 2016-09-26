@@ -1,5 +1,6 @@
 ﻿using Ajax.Data;
 using Ajax.Data.Models;
+using System;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -58,5 +59,47 @@ namespace Ajax.Controllers
                 status = true
             });
         }
+
+        [HttpPost]
+        public JsonResult SaveData(string strEmployee)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            Employee employee = serializer.Deserialize<Employee>(strEmployee);
+            bool status = false;
+            string message = string.Empty;
+            //add new employee if id=0
+            if(employee.ID==0)
+            {
+                employee.CreatedDate = DateTime.Now;
+                _context.Employees.Add(employee);
+                _context.SaveChanges();
+                status = true;
+            }
+            else
+            {
+                //update exist employee
+                var entity = _context.Employees.Find(employee.ID);
+                entity.Salary = employee.Salary;
+                entity.Name = employee.Name;
+                entity.Status = employee.Status;
+                try
+                {
+                    _context.SaveChanges();
+                    status = true;
+                }
+                catch(Exception ex)
+                {
+                    status = false;
+                    message = ex.Message;
+                }
+            }
+            
+            return Json(new
+            {
+                status = status,
+                message=message
+            });
+        }
+
     }
 }
